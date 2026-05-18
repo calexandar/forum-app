@@ -55,5 +55,11 @@ class TestServiceProvider extends ServiceProvider
         /** @var TestResponse $this */
        return $this->assertInertia(fn (AssertableInertia $inertia) => $inertia->hasPaginatedResource($key, $resource));
     });
+
+    TestResponse::macro('assertHasComponent', function (string $component) {
+        /** @var TestResponse $this */
+       return $this->assertInertia(fn (AssertableInertia $inertia) => $inertia->component($component));
+    });
+
     }
 }
