@@ -1,7 +1,8 @@
 <script setup>
 import Pagination from '@/components/ui/pagination/Pagination.vue';
-import { show } from 'App/Http/Controllers/PostController';
+import { show } from '@/actions/App/Http/Controllers/PostController';
 import { Link } from '@inertiajs/vue3';
+import { formatDistance, parseISO } from 'date-fns';
 
  const props = defineProps({
                 posts: Object
@@ -15,18 +16,17 @@ const formattedDate = (post) => {
 <template>
 
         <div class="flex flex-col gap-4">
-                <div v-for="post in posts.data" :key="post.id">
-                        <div class="p-4  rounded shadow">
-                                        <Link :href="show(post.id)" class="text-gray-900 hover:text-gray-700">
-                                                <h2 class="text-xl font-bold">{{ post.title }}</h2>
-                                        </Link>
-                                        <span class="text-sm text-gray-500 mb-6 block">Published {{ formattedDate }} ago by {{ post.user.name }}</span>
-
-                        </div>
-                </div>
+                <ul class="divide-y">
+                        <li v-for="post in posts.data" :key="post.id" class="px-2 py-4">
+                                <Link :href="show(post)" class="group">
+                                        <span class="font-bold text-lg group-hover:text-indigo-500">{{ post.title }}</span>
+                                        <span class="block mt-1 text-sm text-gray-600">Published {{ formattedDate(post) }} ago by {{ post.user.name }}</span>
+                                </Link>
+                        </li>
+                </ul>
         </div>
-
-        <Pagination :meta="posts.meta"/>
+        
+        <!-- <Pagination :meta="posts.meta"/> -->
 
 
 </template>

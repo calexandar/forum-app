@@ -25,7 +25,7 @@
       <div>
         <nav class="isolate inline-flex -space-x-px rounded-md shadow-xs dark:shadow-none" aria-label="Pagination">
             <template v-for="link in meta.links" :key="link.label">
-            <Link
+            <a
                 v-if="link.url"
                 :href="link.url"
                 class="relative inline-flex items-center px-2 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 focus:z-20 focus:outline-offset-0 dark:text-gray-300 dark:hover:bg-white/10"
@@ -44,7 +44,7 @@
                 <ChevronRightIcon class="h-5 w-5" aria-hidden="true" />
                 </span>
                 <span v-else>{{ link.label }}</span>
-            </Link>
+            </a>
             </template>
         </nav>
       </div>
