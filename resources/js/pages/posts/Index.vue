@@ -2,14 +2,14 @@
 import Pagination from '@/components/ui/pagination/Pagination.vue';
 import { show } from '@/actions/App/Http/Controllers/PostController';
 import { Link } from '@inertiajs/vue3';
-import { formatDistance, parseISO } from 'date-fns';
+import { relativeDate } from '@/utilities/date';
 
  const props = defineProps({
                 posts: Object
         });
  
 const formattedDate = (post) => {
-        return formatDistance(parseISO(post.created_at), new Date());
+        return relativeDate(post.created_at);
 }; 
 </script>
 
