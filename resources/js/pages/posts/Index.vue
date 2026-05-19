@@ -26,7 +26,7 @@ const formattedDate = (post) => {
                 </ul>
         </div>
         
-        <!-- <Pagination :meta="posts.meta"/> -->
+        <Pagination :meta="posts.meta"/>
 
 
 </template>

@@ -1,6 +1,6 @@
 <script setup>
 import { relativeDate } from '@/utilities/date';
-import { formatDistance, parseISO } from 'date-fns';
+import Pagination from '@/components/ui/pagination/Pagination.vue';
 
 
 
@@ -35,7 +35,7 @@ const formattedDate = relativeDate(props.post.created_at);
             </ul>
 
              <!-- Pagination for comments -->
-             <!-- <Pagination :meta="comments.meta"/> -->
+             <Pagination :meta="comments.meta" :only="['comments']"/>
         </div>
 
     </div>
