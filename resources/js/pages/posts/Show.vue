@@ -1,6 +1,10 @@
 <script setup>
 import { relativeDate } from '@/utilities/date';
 import Pagination from '@/components/ui/pagination/Pagination.vue';
+import { Link } from '@inertiajs/vue3';
+import { useForm } from '@inertiajs/vue3';
+import Label from '@/components/ui/label/Label.vue';
+import { store } from '@/actions/App/Http/Controllers/CommentController';
 
 
 
@@ -12,6 +16,16 @@ const props = defineProps({
 
 
 const formattedDate = relativeDate(props.post.created_at);
+
+const commentForm = useForm({
+    body: '',
+});
+
+const submitComment = () => {
+    commentForm.post(store({post: props.post.id }), {
+        preserveScroll: true,
+    });
+};
 </script>
 
 <template>
@@ -27,6 +41,13 @@ const formattedDate = relativeDate(props.post.created_at);
 
         <div>
             <h2 class="text-xl font-semibold mt-8 mb-4">Comments</h2>
+
+            <form @submit.prevent="submitComment">
+                <Label class="mb-2 sr-only">Comment</Label>
+                <textarea v-model="commentForm.body" class="w-full border rounded p-2 mb-2" placeholder="Add a comment..."></textarea>
+                <button type="submit" class="px-4 py-2 bg-indigo-500 text-white rounded">Add Comment</button>
+
+            </form>
             <ul class="divide-y mt-4">
                 <li v-for="comment in comments.data" :key="comment.id" class="px-2 py-4">
                     <p class="text-sm mb-1">{{ comment.body }}</p>
