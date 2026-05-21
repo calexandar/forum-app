@@ -12,6 +12,7 @@ Route::inertia('/', 'Welcome', [
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::inertia('dashboard', 'Dashboard')->name('dashboard');
     Route::post('posts/{post}/comments', [CommentController::class, 'store'])->name('posts.comments.store');
+    Route::delete('comments/{comment}', [CommentController::class, 'destroy'])->name('posts.comments.destroy');
 });
 
 require __DIR__.'/settings.php';

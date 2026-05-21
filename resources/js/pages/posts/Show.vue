@@ -1,10 +1,11 @@
 <script setup>
 import { relativeDate } from '@/utilities/date';
 import Pagination from '@/components/ui/pagination/Pagination.vue';
-import { Link } from '@inertiajs/vue3';
-import { useForm } from '@inertiajs/vue3';
+import { useForm, router, usePage } from '@inertiajs/vue3';
 import Label from '@/components/ui/label/Label.vue';
 import { store } from '@/actions/App/Http/Controllers/CommentController';
+import { destroy } from '@/actions/App/Http/Controllers/CommentController';
+import { computed } from 'vue';
 
 
 
@@ -26,6 +27,21 @@ const submitComment = () => {
         preserveScroll: true,
         onSuccess: () => commentForm.reset(),
     });
+};
+
+const deleteComment = (commentId) => {
+    if (confirm('Are you sure you want to delete this comment?')) {
+        router.delete(destroy(commentId), {
+            preserveScroll: true,
+        });
+    }
+};
+
+const canDeleteComment  = (comment) => {
+   if( comment.user.id  === usePage().props.auth.user?.id ) {
+    return true;
+   }
+   return false;
 };
 </script>
 
@@ -54,6 +70,11 @@ const submitComment = () => {
                 <li v-for="comment in comments.data" :key="comment.id" class="px-2 py-4">
                     <p class="text-sm mb-1 break-all">{{ comment.body }}</p>
                     <p class="text-sm text-gray-600 ">{{  comment.user.name }}  commented {{ relativeDate(comment.created_at) }} ago</p>
+                    <div v-if="canDeleteComment(comment)" class="mt-2">
+                        <form  @submit.prevent="deleteComment(comment.id)" class="inline">
+                            <button type="submit" class="text-sm text-red-600 hover:text-red-800 mt-2">Delete</button>
+                        </form>
+                    </div>
                 </li>
             </ul>
 
