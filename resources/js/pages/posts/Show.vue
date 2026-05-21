@@ -24,6 +24,7 @@ const commentForm = useForm({
 const submitComment = () => {
     commentForm.post(store({post: props.post.id }), {
         preserveScroll: true,
+        onSuccess: () => commentForm.reset(),
     });
 };
 </script>
@@ -42,15 +43,16 @@ const submitComment = () => {
         <div>
             <h2 class="text-xl font-semibold mt-8 mb-4">Comments</h2>
 
-            <form @submit.prevent="submitComment">
+            <form v-if="$page.props.auth.user" @submit.prevent="submitComment" class="mt-4">
                 <Label class="mb-2 sr-only">Comment</Label>
                 <textarea v-model="commentForm.body" class="w-full border rounded p-2 mb-2" placeholder="Add a comment..."></textarea>
-                <button type="submit" class="px-4 py-2 bg-indigo-500 text-white rounded">Add Comment</button>
+                <p v-if="commentForm.errors.body" class="text-sm text-red-600 mt-2">{{ commentForm.errors.body }}</p>
+                <button type="submit" class="px-4 py-2 bg-indigo-500 text-white rounded mt-2" :disabled="commentForm.processing">Add Comment</button>
 
             </form>
             <ul class="divide-y mt-4">
                 <li v-for="comment in comments.data" :key="comment.id" class="px-2 py-4">
-                    <p class="text-sm mb-1">{{ comment.body }}</p>
+                    <p class="text-sm mb-1 break-all">{{ comment.body }}</p>
                     <p class="text-sm text-gray-600 ">{{  comment.user.name }}  commented {{ relativeDate(comment.created_at) }} ago</p>
                 </li>
             </ul>
