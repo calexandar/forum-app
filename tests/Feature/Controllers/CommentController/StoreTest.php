@@ -4,6 +4,16 @@ use App\Models\Comment;
 use App\Models\Post;
 use App\Models\User;
 
+it('requires authentication', function () {
+    $post = Post::factory()->create();
+
+    $response = $this->post(route('posts.comments.store', $post), [
+        'body' => 'This is a comment',
+    ]);
+
+    $response->assertRedirect(route('login'));
+});
+
 it('can store a comment', function () {
    $user = User::factory()->create();
    $post = Post::factory()->create();

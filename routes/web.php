@@ -11,6 +11,7 @@ Route::inertia('/', 'Welcome', [
 
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::inertia('dashboard', 'Dashboard')->name('dashboard');
+    Route::post('posts/{post}/comments', [CommentController::class, 'store'])->name('posts.comments.store');
 });
 
 require __DIR__.'/settings.php';
@@ -19,4 +20,3 @@ Route::get('posts', [PostController::class, 'index'])->name('posts.index');
 Route::get('posts/{post}', [PostController::class, 'show'])->name('posts.show');
 
 
-Route::post('posts/{post}/comments', [CommentController::class, 'store'])->name('posts.comments.store');
