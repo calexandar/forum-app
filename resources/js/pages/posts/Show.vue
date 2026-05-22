@@ -37,12 +37,6 @@ const deleteComment = (commentId) => {
     }
 };
 
-const canDeleteComment  = (comment) => {
-   if( comment.user.id  === usePage().props.auth.user?.id ) {
-    return true;
-   }
-   return false;
-};
 </script>
 
 <template>
@@ -70,7 +64,7 @@ const canDeleteComment  = (comment) => {
                 <li v-for="comment in comments.data" :key="comment.id" class="px-2 py-4">
                     <p class="text-sm mb-1 break-all">{{ comment.body }}</p>
                     <p class="text-sm text-gray-600 ">{{  comment.user.name }}  commented {{ relativeDate(comment.created_at) }} ago</p>
-                    <div v-if="canDeleteComment(comment)" class="mt-2">
+                    <div v-if="comment.can?.delete" class="mt-2">
                         <form  @submit.prevent="deleteComment(comment.id)" class="inline">
                             <button type="submit" class="text-sm text-red-600 hover:text-red-800 mt-2">Delete</button>
                         </form>

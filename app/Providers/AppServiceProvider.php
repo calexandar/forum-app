@@ -2,11 +2,14 @@
 
 namespace App\Providers;
 
+use App\Models\Comment;
+use App\Policies\CommentPolicy;
 use Carbon\CarbonImmutable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Validation\Rules\Password;
 
@@ -26,6 +29,7 @@ class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
         $this->configureDefaults();
+        $this->registerPolicies();
 
         JsonResource::withoutWrapping();
         Model::preventLazyLoading();
@@ -55,4 +59,9 @@ class AppServiceProvider extends ServiceProvider
 
 
     }
+
+    protected function registerPolicies(): void
+    {
+        Gate::policy(Comment::class, CommentPolicy::class);
+    }   
 }

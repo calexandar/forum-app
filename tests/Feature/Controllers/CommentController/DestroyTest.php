@@ -40,3 +40,15 @@ it('cannot delete another users comment', function () {
 
     $response->assertForbidden();
 });
+
+it('prevents deleteing a comment posted an hour ago', function () {
+    $this->freezeTime();
+
+    $comment = Comment::factory()->create();
+
+    $this->travel(1)->hour();
+
+    $response = $this->actingAs($comment->user)->delete(route('posts.comments.destroy', $comment));
+
+    $response->assertForbidden();
+});
