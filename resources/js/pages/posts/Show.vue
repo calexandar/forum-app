@@ -5,7 +5,7 @@ import { useForm, router, usePage } from '@inertiajs/vue3';
 import Label from '@/components/ui/label/Label.vue';
 import { store } from '@/actions/App/Http/Controllers/CommentController';
 import { destroy } from '@/actions/App/Http/Controllers/CommentController';
-import { computed } from 'vue';
+import { computed, defineEmits } from 'vue';
 
 
 
@@ -22,6 +22,8 @@ const commentForm = useForm({
     body: '',
 });
 
+const emit = defineEmits(['commentDeleted']);
+
 const submitComment = () => {
     commentForm.post(store({post: props.post.id }), {
         preserveScroll: true,
@@ -29,9 +31,9 @@ const submitComment = () => {
     });
 };
 
-const deleteComment = (commentId) => {
+const commentDeleted = (commentId)  => {
     if (confirm('Are you sure you want to delete this comment?')) {
-        router.delete(destroy(commentId), {
+        router.delete(destroy({comment: commentId, page: props.comments.meta.current_page}), {
             preserveScroll: true,
         });
     }
@@ -65,7 +67,7 @@ const deleteComment = (commentId) => {
                     <p class="text-sm mb-1 break-all">{{ comment.body }}</p>
                     <p class="text-sm text-gray-600 ">{{  comment.user.name }}  commented {{ relativeDate(comment.created_at) }} ago</p>
                     <div v-if="comment.can?.delete" class="mt-2">
-                        <form  @submit.prevent="deleteComment(comment.id)" class="inline">
+                        <form  @submit.prevent="$emit('commentDeleted', comment.id)" class="inline">
                             <button type="submit" class="text-sm text-red-600 hover:text-red-800 mt-2">Delete</button>
                         </form>
                     </div>

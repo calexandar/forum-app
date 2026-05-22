@@ -52,3 +52,11 @@ it('prevents deleteing a comment posted an hour ago', function () {
 
     $response->assertForbidden();
 });
+
+it('redirects to show page after deleting a comment with page parameter', function () {
+    $comment = Comment::factory()->create();
+
+    $response = $this->actingAs($comment->user)->delete(route('posts.comments.destroy', ['comment' => $comment, 'page' => 2]));
+
+    $response->assertRedirect(route('posts.show', ['post' => $comment->post_id, 'page' => 2]));
+});
