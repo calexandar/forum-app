@@ -63,12 +63,12 @@ const commentDeleted = (commentId)  => {
 
             </form>
             <ul class="divide-y mt-4">
-                <li v-for="comment in comments.data" :key="comment.id" class="px-2 py-4">
+                <li v-for="comment in comments.data" :key="comment.id" class="px-2 py-4 flex-1">
                     <p class="text-sm mb-1 break-all">{{ comment.body }}</p>
                     <p class="text-sm text-gray-600 ">{{  comment.user.name }}  commented {{ relativeDate(comment.created_at) }} ago</p>
-                    <div v-if="comment.can?.delete" class="mt-2">
+                    <div v-if="comment.can?.delete" class="mt-2 text-right"> 
                         <form  @submit.prevent="$emit('commentDeleted', comment.id)" class="inline">
-                            <button type="submit" class="text-sm text-red-600 hover:text-red-800 mt-2">Delete</button>
+                            <button type="submit" class="text-sm text-red-600 hover:font-extrabold hover:underline mr-2">Delete</button>
                         </form>
                     </div>
                 </li>
