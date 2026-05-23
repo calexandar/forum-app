@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Gate;
 
 class CommentController extends Controller
 {
+
     /**
      * Display a listing of the resource.
      */
@@ -64,13 +65,15 @@ class CommentController extends Controller
      */
     public function update(Request $request, Comment $comment)
     {
+        Gate::authorize('update', $comment);
+
         $data = $request->validate([
             'body' => ['required', 'string', 'max:255'],
         ]);
 
         $comment->update($data);
 
-        return to_route('posts.show', $comment->post);
+        return to_route('posts.show', ['post' => $comment->post_id, 'page' => $request->query('page')]);
     }
 
     /**
