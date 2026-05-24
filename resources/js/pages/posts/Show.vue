@@ -23,6 +23,7 @@ const commentForm = useForm({
 
 const emit = defineEmits(['commentDeleted', 'commentEdit']);
 
+const commentTextAreaRef = ref(null);
 const commentIdBeingEdited = ref(null);
 
 const commentBeingEdit = computed(() => {
@@ -32,6 +33,9 @@ const commentEdit = (commentId) => {
     commentIdBeingEdited.value = commentId;
 
     commentForm.body = commentBeingEdit.value?.body;
+
+    // Focus the textarea after setting the comment body
+    commentTextAreaRef.value?.focus();
 };
 
 const cancelCommentEdit = () => {
@@ -82,7 +86,7 @@ const commentDeleted = (commentId)  => {
 
             <form v-if="$page.props.auth.user" @submit.prevent="() => commentIdBeingEdited ? updateComment() : submitComment()" class="mt-4">
                 <Label class="mb-2 sr-only">Comment</Label>
-                <textarea v-model="commentForm.body" class="w-full border rounded p-2 mb-2" placeholder="Add a comment..."></textarea>
+                <textarea ref="commentTextAreaRef" v-model="commentForm.body" class="w-full border rounded p-2 mb-2" placeholder="Add a comment..."></textarea>
                 <p v-if="commentForm.errors.body" class="text-sm text-red-600 mt-2">{{ commentForm.errors.body }}</p>
                 <button type="submit" class="px-4 py-2 bg-indigo-500 text-white rounded mt-2" :disabled="commentForm.processing" v-text="commentIdBeingEdited ? 'Update Comment' : 'Add Comment'"></button>
                 <button v-if="commentIdBeingEdited" type="button" class="px-4 py-2 bg-gray-500 text-white rounded mt-2 ml-2" @click="cancelCommentEdit">Cancel</button>
