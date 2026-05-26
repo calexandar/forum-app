@@ -26,7 +26,8 @@ class CommentController extends Controller
             'user_id' => $request->user()->id
             ]);
 
-        return to_route('posts.show', $post);
+        return to_route('posts.show', $post)
+            ->with('toast', ['message' => 'Comment added successfully!', 'type' => 'success']);
     }
 
 
@@ -43,7 +44,8 @@ class CommentController extends Controller
 
         $comment->update($data);
 
-        return to_route('posts.show', ['post' => $comment->post_id, 'page' => $request->query('page')]);
+        return to_route('posts.show', ['post' => $comment->post_id, 'page' => $request->query('page')])
+            ->with('toast', ['message' => 'Comment updated successfully!', 'type' => 'success']);
     }
 
     /**
@@ -55,6 +57,7 @@ class CommentController extends Controller
 
         $comment->delete();
 
-        return to_route('posts.show', ['post' => $comment->post_id,  'page' =>$request->query('page')]);
+        return to_route('posts.show', ['post' => $comment->post_id,  'page' =>$request->query('page')])
+            ->with('toast', ['message' => 'Comment deleted successfully!', 'type' => 'success']);
     }
 }
