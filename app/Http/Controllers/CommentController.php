@@ -6,6 +6,7 @@ use App\Models\Comment;
 use App\Models\Post;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
+use Inertia\Inertia;
 
 class CommentController extends Controller
 {
@@ -26,8 +27,9 @@ class CommentController extends Controller
             'user_id' => $request->user()->id
             ]);
 
-        return to_route('posts.show', $post)
-            ->with('toast', ['message' => 'Comment added successfully!', 'type' => 'success']);
+        Inertia::flash('toast', ['type' => 'success', 'message' => 'Comment added successfully!']);
+        
+        return to_route('posts.show', $post);
     }
 
 
@@ -44,8 +46,9 @@ class CommentController extends Controller
 
         $comment->update($data);
 
-        return to_route('posts.show', ['post' => $comment->post_id, 'page' => $request->query('page')])
-            ->with('toast', ['message' => 'Comment updated successfully!', 'type' => 'success']);
+        Inertia::flash('toast', ['type' => 'success', 'message' => 'Comment updated successfully!']);
+        
+        return to_route('posts.show', ['post' => $comment->post_id, 'page' => $request->query('page')]);
     }
 
     /**
@@ -57,7 +60,8 @@ class CommentController extends Controller
 
         $comment->delete();
 
-        return to_route('posts.show', ['post' => $comment->post_id,  'page' =>$request->query('page')])
-            ->with('toast', ['message' => 'Comment deleted successfully!', 'type' => 'success']);
+        Inertia::flash('toast', ['type' => 'success', 'message' => 'Comment deleted successfully!']);
+
+        return to_route('posts.show', ['post' => $comment->post_id,  'page' =>$request->query('page')]);
     }
 }
