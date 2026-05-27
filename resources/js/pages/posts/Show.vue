@@ -6,6 +6,7 @@ import Label from '@/components/ui/label/Label.vue';
 import { store, update, destroy } from '@/actions/App/Http/Controllers/CommentController';
 import { computed, defineEmits, ref } from 'vue';
 import ConfirmationModalWrapper from '@/components/ui/modal/ConfirmationModalWrapper.vue';
+import { useConfirm } from '@/composables/useConfirm.ts';
 
 
 
@@ -51,7 +52,13 @@ const submitComment = () => {
     });
 };
 
-const updateComment = () => {
+const {confirmation} = useConfirm();
+
+const updateComment = async() => {
+    if (! await confirmation('Are you sure you want to update this comment?', 'Do you really want to perform this action? This process cannot be undone.')) {
+        return;
+    }
+    
     commentForm.put(update({
         comment: commentIdBeingEdited.value,
         page: props.comments.meta.current_page
@@ -61,8 +68,8 @@ const updateComment = () => {
     });
 };
 
-const commentDeleted = (commentId)  => {
-    if (! confirm('Are you sure you want to delete this comment?')) {
+const commentDeleted = async (commentId)  => {
+    if (! await confirmation('Are you sure you want to delete this comment?', 'Do you really want to perform this action? This process cannot be undone.')) {
         return;
     }
     router.delete(destroy({comment: commentId, page: props.comments.meta.current_page}), {
