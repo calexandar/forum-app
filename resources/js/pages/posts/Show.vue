@@ -5,6 +5,7 @@ import { useForm, router, usePage } from '@inertiajs/vue3';
 import Label from '@/components/ui/label/Label.vue';
 import { store, update, destroy } from '@/actions/App/Http/Controllers/CommentController';
 import { computed, defineEmits, ref } from 'vue';
+import ConfirmationModalWrapper from '@/components/ui/modal/ConfirmationModalWrapper.vue';
 
 
 
@@ -61,11 +62,12 @@ const updateComment = () => {
 };
 
 const commentDeleted = (commentId)  => {
-    if (confirm('Are you sure you want to delete this comment?')) {
-        router.delete(destroy({comment: commentId, page: props.comments.meta.current_page}), {
-            preserveScroll: true,
-        });
+    if (! confirm('Are you sure you want to delete this comment?')) {
+        return;
     }
+    router.delete(destroy({comment: commentId, page: props.comments.meta.current_page}), {
+        preserveScroll: true,
+    });
 };
 
 </script>
@@ -111,4 +113,5 @@ const commentDeleted = (commentId)  => {
         </div>
 
     </div>
+    <ConfirmationModalWrapper/>
 </template>
