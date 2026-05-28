@@ -34,7 +34,18 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $data = $request->validate([
+            'title' => 'required|string|max:255',
+            'body' => 'required|string',
+        ]);
+
+        $post = Post::create([
+            'title' => $data['title'],
+            'body' => $data['body'],
+            'user_id' => $request->user()->id,
+        ]);
+
+        return redirect()->route('posts.show', $post);
     }
 
     /**
