@@ -12,7 +12,7 @@ Route::inertia('/', 'Welcome', [
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::inertia('dashboard', 'Dashboard')->name('dashboard');
     Route::resource('posts.comments', CommentController::class)->shallow()->only(['store', 'update', 'destroy']);
-    Route::resource('posts', PostController::class)->only(['store']);
+    Route::resource('posts', PostController::class)->only(['create', 'store']);
 
 });
 
