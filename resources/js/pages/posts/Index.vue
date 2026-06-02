@@ -18,7 +18,7 @@ const formattedDate = (post) => {
         <div class="flex flex-col gap-4">
                 <ul class="divide-y">
                         <li v-for="post in posts.data" :key="post.id" class="px-2 py-4">
-                                <Link :href="show(post)" class="group">
+                                <Link :href="post.routes.show" class="group">
                                         <span class="font-bold text-lg group-hover:text-indigo-500">{{ post.title }}</span>
                                         <span class="block mt-1 text-sm text-gray-600">Published {{ formattedDate(post) }} ago by {{ post.user.name }}</span>
                                 </Link>

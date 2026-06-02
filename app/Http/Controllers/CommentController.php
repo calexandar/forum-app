@@ -29,7 +29,7 @@ class CommentController extends Controller
 
         Inertia::flash('toast', ['type' => 'success', 'message' => 'Comment added successfully!']);
         
-        return to_route('posts.show', $post);
+        return redirect($post->showRoute(['page' => $request->query('page')]), 301);
     }
 
 
@@ -48,7 +48,7 @@ class CommentController extends Controller
 
         Inertia::flash('toast', ['type' => 'success', 'message' => 'Comment updated successfully!']);
         
-        return to_route('posts.show', ['post' => $comment->post_id, 'page' => $request->query('page')]);
+        return redirect($comment->post->showRoute(['post' => $comment->post_id, 'page' => $request->query('page')]), 301);
     }
 
     /**
@@ -62,6 +62,6 @@ class CommentController extends Controller
 
         Inertia::flash('toast', ['type' => 'success', 'message' => 'Comment deleted successfully!']);
 
-        return to_route('posts.show', ['post' => $comment->post_id,  'page' =>$request->query('page')]);
+        return redirect($comment->post->showRoute(['post' => $comment->post_id, 'page' => $request->query('page')]), 301);
     }
 }

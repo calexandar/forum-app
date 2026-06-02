@@ -31,4 +31,14 @@ class Post extends Model
         );
     }
 
+    public function showRoute(array $parameters = [])
+     {
+         return route('posts.show',[
+            $this->id,
+            Str::slug($this->title),
+            ...$parameters,
+         ]);
+     }
+
+
 }
