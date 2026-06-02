@@ -30,7 +30,7 @@ it('can store a comment', function () {
 });
 
 it('redirects after storing a comment', function () {
-     $user = User::factory()->create();
+    $user = User::factory()->create();
     $post = Post::factory()->create();
 
     $response = $this->actingAs($user)
@@ -38,7 +38,7 @@ it('redirects after storing a comment', function () {
             'body' => 'This is a comment',
     ]);
 
-    $response->assertRedirect(route('posts.show', $post));
+    $response->assertRedirect($post->showRoute());
 });
 
 it('requires validation', function ($value) {

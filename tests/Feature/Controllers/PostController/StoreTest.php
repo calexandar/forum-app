@@ -36,7 +36,7 @@ it('redirects to the post show page after storing', function () {
 
     $post = Post::latest('id')->first();
 
-    $response->assertRedirect(route('posts.show', $post));
+    $response->assertRedirect($post->showRoute());
 });
 
 it('requires valid title', function ($badTitle) {

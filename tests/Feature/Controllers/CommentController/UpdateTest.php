@@ -34,7 +34,7 @@ it('redirects to the post show page after updating', function () {
             'body' => 'Updated comment body',
         ]);
 
-    $response->assertRedirect(route('posts.show', $comment->post));
+    $response->assertRedirect($comment->post->showRoute(['post' => $comment->post]));
 });
 
 it('redirects to the post show page after updating with page parameter', function () {
@@ -45,7 +45,7 @@ it('redirects to the post show page after updating with page parameter', functio
             'body' => 'Updated comment body',
         ]);
 
-    $response->assertRedirect(route('posts.show', ['post' => $comment->post, 'page' => 2]));
+    $response->assertRedirect($comment->post->showRoute(['post' => $comment->post, 'page' => 2]));
 });
 
 it('does not allow updating another user\'s comment', function () {
