@@ -10,6 +10,7 @@ defineOptions({
                 title: 'Dashboard',
                 href: dashboard(),
             },
+
         ],
     },
 });

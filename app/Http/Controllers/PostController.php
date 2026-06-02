@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Resources\CommentResource;
 use App\Http\Resources\PostResource;
 use App\Models\Post;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
@@ -26,6 +27,8 @@ class PostController extends Controller
      */
     public function create()
     {
+        Gate::authorize('create', Post::class);
+        
         return Inertia::render('posts/Create');
     }
 

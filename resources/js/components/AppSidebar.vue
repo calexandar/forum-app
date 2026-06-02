@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import { Link } from '@inertiajs/vue3';
+import { Link, usePage } from '@inertiajs/vue3';
+import { computed } from "vue";
 import { BookOpen, FolderGit2, LayoutGrid } from 'lucide-vue-next';
 import AppLogo from '@/components/AppLogo.vue';
 import NavFooter from '@/components/NavFooter.vue';
@@ -15,13 +16,28 @@ import {
     SidebarMenuItem,
 } from '@/components/ui/sidebar';
 import { dashboard } from '@/routes';
+import { index, create } from '@/routes/posts';
 import type { NavItem } from '@/types';
+
+const page = usePage();
+const createPostVisible = computed(() => page.props.permissions.create_posts);
 
 const mainNavItems: NavItem[] = [
     {
         title: 'Dashboard',
         href: dashboard(),
         icon: LayoutGrid,
+    },
+    {
+        title: 'Posts',
+        href: index(),
+        icon: LayoutGrid,
+    },
+    {
+        title: 'Create post',
+        href: create(),
+        icon: LayoutGrid,
+
     },
 ];
 

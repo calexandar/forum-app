@@ -6,7 +6,7 @@ use App\Models\User;
 beforeEach(function () {
     $this->postData = [
         'title' => 'Test Post',
-        'body' => 'This is a test post.',
+        'body' => 'Lorem ipsums s dolor sit amet consectetur adipisicing elit. Officiis, quod? Officia ut similique dolore. Odit perferendis, sunt dolorem fuga eos explicabo soluta labore repudiandae impedit, neque quaerat tempore. Commodi, voluptate? Atque deleniti, rerum ea ullam earum mollitia nisi dolores dolore commodi debitis dolorum qui sequi fugiat? Itaque illo adipisci veritatis maiores nulla reiciendis, inventore aperiam, corporis excepturi ab facilis quam voluptatibus amet dolor cum in, magnam exercitationem nobis optio explicabo sit. Iure sit vitae, ipsa quas sunt asperiores pariatur atque ipsum architecto suscipit nobis error odit doloribus nisi ratione, voluptatum eius minima cumque optio sint praesentium vel ducimus blanditiis? Dolorum.',
     ];
 });
 
