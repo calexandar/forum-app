@@ -8,7 +8,7 @@ use App\Models\Comment;
 it('can show a post', function () {
     $post = Post::factory()->create();
 
-    $response = $this->get(route('posts.show', $post));
+    $response = $this->get($post->showRoute());
 
     $response->assertHasComponent('posts/Show');
 });
@@ -18,7 +18,7 @@ it('passes the correct data to the view', function () {
 
     $post->load('user');
 
-    $response = $this->get(route('posts.show', $post));
+    $response = $this->get($post->showRoute());
 
     $response->assertHasResource('post', new PostResource($post));
 });
@@ -32,7 +32,7 @@ it('passes comments to the view', function () {
     $comments->load('user');
 
 
-    $response = $this->get(route('posts.show', $post));
+    $response = $this->get($post->showRoute());
 
     $response->assertHasPaginatedResource('comments', CommentResource::collection($comments->reverse()));
 });
