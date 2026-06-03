@@ -1,6 +1,7 @@
 <script setup>
 import { useForm } from '@inertiajs/vue3';
 import { store } from '@/actions/App/Http/Controllers/PostController';
+import MarkdownEditor from '@/components/MarkdownEditor.vue';
 
 const form = useForm({
     title: '',
@@ -29,7 +30,8 @@ const createPost = () => {
             </div>
             <div class="mb-4">
                 <label for="body" class="block text-sm font-medium text-gray-700">Body</label>
-                <textarea id="body" v-model="form.body" class="mt-1 block w-full border rounded p-2" placeholder="Enter post body..." rows="25"></textarea>
+                <MarkdownEditor v-model="form.body" />
+                <textarea id="body" v-model="form.body" class="mt-2 block w-full border rounded p-2" placeholder="Enter post body..." rows="25"></textarea>
                 <p v-if="form.errors.body" class="text-sm text-red-600 mt-2">{{ form.errors.body }}</p>
             </div>
             <button type="submit" class="px-4 py-2 bg-indigo-500 text-white rounded" >Create Post</button>

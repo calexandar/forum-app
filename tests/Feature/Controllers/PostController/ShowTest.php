@@ -36,3 +36,11 @@ it('passes comments to the view', function () {
 
     $response->assertHasPaginatedResource('comments', CommentResource::collection($comments->reverse()));
 });
+
+it('redirects to the correct URL if the slug is missing', function () {
+    $post = Post::factory()->create();
+
+    $response = $this->get(route('posts.show', ['post' => $post]));
+
+    $response->assertRedirect($post->showRoute());
+});
