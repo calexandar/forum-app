@@ -28,3 +28,11 @@ it('generates a route to the show page with parameters', function () {
         'foo' => 'bar',
     ]));
 });
+
+it('generates html from markdown body', function () {
+    $post = Post::factory()->make(['body' => '# Hello World']);
+
+    $post->save();
+
+    expect($post->html)->toEqual(str($post->body)->markdown());
+});

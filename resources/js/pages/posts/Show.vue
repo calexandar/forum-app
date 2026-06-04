@@ -86,8 +86,7 @@ const commentDeleted = async (commentId)  => {
 
         <span class="text-sm text-gray-500 mb-6 block">Published {{ formattedDate }} ago by {{ post.user.name }}</span>
 
-        <article class="mt-6 prose dark:prose-invert">
-            <p>{{ post.body }}</p>
+        <article class="mt-6 prose prose-sm max-w-none dark:prose-invert" v-html="post.html">
         </article>
 
         <div>
