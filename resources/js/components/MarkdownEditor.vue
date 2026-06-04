@@ -1,4 +1,5 @@
 <script setup>
+import { Placeholder } from '@tiptap/extensions'
   import { Editor, EditorContent} from '@tiptap/vue-3'
   import StarterKit from '@tiptap/starter-kit'
   import { watch } from 'vue';
@@ -8,6 +9,7 @@
   
   const props = defineProps({
       modelValue: String,
+      editorClass: String,
     });
     
     const emit = defineEmits(['update:modelValue']);
@@ -20,10 +22,13 @@
           },
         }),
         Markdown,
+        Placeholder.configure({
+            placeholder: 'Enter some text...',
+        })
       ],
         editorProps: {
             attributes: {
-            class: 'min-h-[200px] prose prose-sm max-w-none py-1.5 px-3',
+            class: `min-h-[200px] prose prose-sm max-w-none py-1.5 px-3 ${props.editorClass}`,
             },
         },
         onUpdate: ({ editor }) => {
@@ -53,6 +58,17 @@
     };
 
 </script>
+
+<style scoped >
+:deep(.tiptap p.is-editor-empty:first-child::before ){
+  color: #adb5bd;
+  content: attr(data-placeholder);
+  float: left;
+  height: 0;
+  pointer-events: none;
+}
+
+</style>
 
 <template>
   <div v-if="editor" class="border rounded">
@@ -141,3 +157,4 @@
     <EditorContent :editor="editor" />
   </div>
 </template>
+

@@ -7,6 +7,7 @@ import { store, update, destroy } from '@/actions/App/Http/Controllers/CommentCo
 import { computed, defineEmits, ref } from 'vue';
 import ConfirmationModalWrapper from '@/components/ui/modal/ConfirmationModalWrapper.vue';
 import { useConfirm } from '@/composables/useConfirm.ts';
+import MarkdownEditor from '@/components/MarkdownEditor.vue';
 
 
 
@@ -94,14 +95,14 @@ const commentDeleted = async (commentId)  => {
 
             <form v-if="$page.props.auth.user" @submit.prevent="() => commentIdBeingEdited ? updateComment() : submitComment()" class="mt-4">
                 <Label class="mb-2 sr-only">Comment</Label>
-                <textarea ref="commentTextAreaRef" v-model="commentForm.body" class="w-full border rounded p-2 mb-2" placeholder="Add a comment..."></textarea>
+                <MarkdownEditor ref="commentTextAreaRef" v-model="commentForm.body" class="w-full border rounded p-2 mb-2" placeholder="Add a comment..." editorClass="[min-h-100px]"/>
                 <p v-if="commentForm.errors.body" class="text-sm text-red-600 mt-2">{{ commentForm.errors.body }}</p>
                 <button type="submit" class="px-4 py-2 bg-indigo-500 text-white rounded mt-2" :disabled="commentForm.processing" v-text="commentIdBeingEdited ? 'Update Comment' : 'Add Comment'"></button>
                 <button v-if="commentIdBeingEdited" type="button" class="px-4 py-2 bg-gray-500 text-white rounded mt-2 ml-2" @click="cancelCommentEdit">Cancel</button>
             </form>
             <ul class="divide-y mt-4 flex-1">
                 <li v-for="comment in comments.data" :key="comment.id" class="px-2 py-4 flex-1">
-                    <p class="text-sm mb-1 break-all">{{ comment.body }}</p>
+                    <div class="mb-2 prose prose-sm dark:prose-invert" v-html="comment.html"></div>
                     <p class="text-sm text-gray-600 ">{{  comment.user.name }}  commented {{ relativeDate(comment.created_at) }} ago</p>
                     <div  class="mt-2 flex space-x-4 justify-end"> 
                         <form v-if="comment.can?.update" @submit.prevent="commentEdit(comment.id)" class="inline">
