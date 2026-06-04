@@ -36,6 +36,10 @@ import { Placeholder } from '@tiptap/extensions'
         },
     });
 
+    defineExpose({
+        focus: () => editor.chain().focus().run(),
+    });
+
     watch(() => props.modelValue, (newValue) => {
       if (newValue === editor.storage.markdown.getMarkdown()) {
         return;
