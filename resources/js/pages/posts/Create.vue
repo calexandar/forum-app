@@ -15,6 +15,11 @@ const createPost = () => {
         },
     });
 };
+
+const autofil = () => {
+    form.title = 'Lorem ipsum dolor sit amet';
+    form.body = `Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.`;
+}
 </script>
 
 <template>
@@ -30,7 +35,12 @@ const createPost = () => {
             </div>
             <div class="mb-4">
                 <label for="body" class="block text-sm font-medium text-gray-700">Body</label>
-                <MarkdownEditor v-model="form.body" />
+                <MarkdownEditor v-model="form.body">
+                    <template #toolbar="{ editor }">
+                        <li><button @click="autofil" class="font-bold px-3 py-2 rouded-tl-md "><i class="ri-article-line"></i></button></li>
+
+                    </template>
+                </MarkdownEditor>
                 <textarea id="body" v-model="form.body" class="mt-2 block w-full border rounded p-2" placeholder="Enter post body..." rows="25"></textarea>
                 <p v-if="form.errors.body" class="text-sm text-red-600 mt-2">{{ form.errors.body }}</p>
             </div>
