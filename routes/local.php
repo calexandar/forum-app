@@ -3,7 +3,7 @@
 use Illuminate\Support\Facades\Route;
 
 Route::middleware('api')->group(function () {
-    Route::get('post-comment', function () {
+    Route::get('post-content', function () {
         return response()->json(['message' => 'This is a local route!']);
     });
 });
