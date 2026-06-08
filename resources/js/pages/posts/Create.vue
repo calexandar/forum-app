@@ -2,6 +2,7 @@
 import { useForm } from '@inertiajs/vue3';
 import { store } from '@/actions/App/Http/Controllers/PostController';
 import MarkdownEditor from '@/components/MarkdownEditor.vue';
+import { isProduction } from '@/utilities/enviroment';
 
 const form = useForm({
     title: '',
@@ -16,7 +17,6 @@ const createPost = () => {
     });
 };
 
-const isProduction = () => import.meta.env.PROD;
 const autofil = async () => {
     if (isProduction()) {
         return;
