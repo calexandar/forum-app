@@ -3,6 +3,7 @@
 namespace Database\Factories;
 
 use App\Models\Post;
+use App\Models\Topic;
 use App\Models\User;
 use App\Support\PostFixtures;
 use Illuminate\Database\Eloquent\Factories\Factory;
@@ -25,6 +26,7 @@ class PostFactory extends Factory
     {
         return [
             'user_id' => User::factory(),
+            'topic_id' => Topic::factory(),
             'title' => str(fake()->sentence)->beforeLast('.')->title(),
             'slug' => fake()->unique()->slug(),
             'body' => fake()->realText(200),
