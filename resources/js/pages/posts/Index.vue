@@ -22,6 +22,10 @@ const formattedDate = (post) => {
                                         <span class="font-bold text-lg group-hover:text-indigo-500">{{ post.title }}</span>
                                         <span class="block mt-1 text-sm text-gray-600">Published {{ formattedDate(post) }} ago by {{ post.user.name }}</span>
                                 </Link>
+                                <Link :href="post.routes.show" 
+                                class="rounded-full px-2 py-1 text-sm mt-2 inline-block border border-pink-500">
+                                         {{post.topic.name}}
+                                </Link>
                         </li>
                 </ul>
         </div>
