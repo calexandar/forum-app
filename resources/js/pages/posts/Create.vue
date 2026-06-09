@@ -4,8 +4,13 @@ import { store } from '@/actions/App/Http/Controllers/PostController';
 import MarkdownEditor from '@/components/MarkdownEditor.vue';
 import { isProduction } from '@/utilities/enviroment';
 
+const props = defineProps({
+    topics: Object,
+});
+
 const form = useForm({
     title: '',
+    topic_id: props.topics[0]?.id || null,
     body: '',
 });
 
@@ -46,6 +51,15 @@ const autofil = async () => {
                 <input type="text" id="title" v-model="form.title" class="mt-1 block w-full border rounded p-2" placeholder="Enter post title..." />
                 <p v-if="form.errors.title" class="text-sm text-red-600 mt-2">{{ form.errors.title }}</p>
             </div>
+
+             <div class="mb-4">
+                <label for="topic" class="block text-sm font-medium text-gray-700">Topic</label>
+                <select id="topic" v-model="form.topic_id" class="mt-1 block w-full border rounded p-2 bg-gray-500 text-white">
+                    <option v-for="topic in topics" :key="topic.id" :value="topic.id">{{ topic.name }}</option>
+                </select>
+                <p v-if="form.errors.topic_id" class="text-sm text-red-600 mt-2">{{ form.errors.topic_id }}</p>
+            </div>
+
             <div class="mb-4">
                 <label for="body" class="block text-sm font-medium text-gray-700">Body</label>
                 <MarkdownEditor v-model="form.body">
