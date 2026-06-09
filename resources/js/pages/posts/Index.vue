@@ -18,6 +18,7 @@ const formattedDate = (post) => {
 
         <div class="flex flex-col gap-4">
                 <div>
+                        <Link :href="index()" class="text-sm text-gray-600 mb-4 inline-block hover:text-indigo-500">Back to all posts</Link>
                         <h1 v-text="selectedTopic ? selectedTopic.name : 'All Topics'" class="text-2xl font-bold mb-4"></h1>
                         <p v-if="selectedTopic" class="text-sm text-gray-600 mb-4">Filtering by topic: <span class="font-medium">{{ selectedTopic.name }}</span></p>
                         <p v-if="selectedTopic" class="text-sm text-gray-600 mb-4">Description: <span class="font-medium">{{ selectedTopic.description }}</span></p>
