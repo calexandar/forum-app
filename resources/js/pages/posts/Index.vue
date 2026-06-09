@@ -6,7 +6,11 @@ import { relativeDate } from '@/utilities/date';
 
  const props = defineProps({
                 posts: Object,
+                topics: Object,
                 selectedTopic: Object,
+                filled:{
+                        default: false
+                }
         });
  
 const formattedDate = (post) => {
@@ -18,10 +22,24 @@ const formattedDate = (post) => {
 
         <div class="flex flex-col gap-4">
                 <div>
-                        <Link :href="index()" class="text-sm text-gray-600 mb-4 inline-block hover:text-indigo-500">Back to all posts</Link>
+                        <Link v-if="selectedTopic" :href="index()" class="text-sm text-gray-600 mb-4 inline-block hover:text-indigo-500">Back to all posts</Link>
                         <h1 v-text="selectedTopic ? selectedTopic.name : 'All Topics'" class="text-2xl font-bold mb-4"></h1>
                         <p v-if="selectedTopic" class="text-sm text-gray-600 mb-4">Filtering by topic: <span class="font-medium">{{ selectedTopic.name }}</span></p>
                         <p v-if="selectedTopic" class="text-sm text-gray-600 mb-4">Description: <span class="font-medium">{{ selectedTopic.description }}</span></p>
+
+                
+                        <menu class="flex space-x-1 mt-3 overflow-x-auto pb-2 pt-1">
+                                <li v-for="topic in topics" :key="topic.id">
+                                         <Link
+                                          :href="index({ topic: topic.slug })"
+                                          :filled="selectedTopic && selectedTopic.id === topic.id"
+                                        class="rounded-full px-2 py-1 text-sm mt-2 inline-block border border-pink-500"
+                                        :class="{'bg-indego0-500 text-white': selectedTopic && selectedTopic.id === topic.id, 'text-gray-600 hover:bg-gray-100': !selectedTopic || selectedTopic.id !== topic.id}"
+                                        >
+                                                {{topic.name}}
+                                        </Link>
+                                </li>
+                        </menu>
                 </div>
                 <ul class="divide-y">
                         <li v-for="post in posts.data" :key="post.id" class="px-2 py-4">
