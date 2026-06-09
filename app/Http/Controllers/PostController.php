@@ -4,7 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Http\Resources\CommentResource;
 use App\Http\Resources\PostResource;
+use App\Http\Resources\TopicResource;
 use App\Models\Post;
+use App\Models\Topic;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Str;
@@ -15,11 +18,16 @@ class PostController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Topic $topic)
     {
+        $posts = Post::with(['user', 'topic'])
+            ->when($topic->exists, fn (Builder $query) => $query->whereBelongsTo($topic))
+            ->latest()
+            ->paginate();
 
         return Inertia::render('posts/Index', [
-            'posts' => PostResource::collection(Post::with(['user', 'topic'])->latest()->paginate()),
+            'posts' => PostResource::collection($posts),
+            'selectedTopic' => fn () => $topic->exists ? TopicResource::make($topic) : null,
         ]);
     }
 
