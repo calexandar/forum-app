@@ -5,7 +5,8 @@ import { Link } from '@inertiajs/vue3';
 import { relativeDate } from '@/utilities/date';
 
  const props = defineProps({
-                posts: Object
+                posts: Object,
+                selectedTopic: Object,
         });
  
 const formattedDate = (post) => {
@@ -16,6 +17,11 @@ const formattedDate = (post) => {
 <template>
 
         <div class="flex flex-col gap-4">
+                <div>
+                        <h1 v-text="selectedTopic ? selectedTopic.name : 'All Topics'" class="text-2xl font-bold mb-4"></h1>
+                        <p v-if="selectedTopic" class="text-sm text-gray-600 mb-4">Filtering by topic: <span class="font-medium">{{ selectedTopic.name }}</span></p>
+                        <p v-if="selectedTopic" class="text-sm text-gray-600 mb-4">Description: <span class="font-medium">{{ selectedTopic.description }}</span></p>
+                </div>
                 <ul class="divide-y">
                         <li v-for="post in posts.data" :key="post.id" class="px-2 py-4">
                                 <Link :href="post.routes.show" class="group">
