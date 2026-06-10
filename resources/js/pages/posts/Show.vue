@@ -1,13 +1,14 @@
 <script setup>
 import { relativeDate } from '@/utilities/date';
 import Pagination from '@/components/ui/pagination/Pagination.vue';
-import { useForm, router, usePage } from '@inertiajs/vue3';
+import { useForm, router, usePage, Head } from '@inertiajs/vue3';
 import Label from '@/components/ui/label/Label.vue';
-import { store, update, destroy } from '@/actions/App/Http/Controllers/CommentController';
+import { store, update, destroy} from '@/actions/App/Http/Controllers/CommentController';
 import { computed, defineEmits, ref } from 'vue';
 import ConfirmationModalWrapper from '@/components/ui/modal/ConfirmationModalWrapper.vue';
 import { useConfirm } from '@/composables/useConfirm.ts';
 import MarkdownEditor from '@/components/MarkdownEditor.vue';
+import {show} from '@/routes/posts';
 
 
 
@@ -85,11 +86,15 @@ const commentDeleted = async (commentId)  => {
 </script>
 
 <template>
+    <Head title="Show post">
+
+    </Head>
+
     <div class="container px-4 py-8 mx-auto">
 
             <h1 class="text-2xl font-bold mb-4">{{ post.title }}</h1>
 
-        <span class="text-sm text-gray-500 mb-6 block">Published {{ formattedDate }} ago by {{ post.user.name }}</span>
+        <span class="text-sm text-gray-500 mb-6 block">Published {{ formattedDate }} by {{ post.user.name }}</span>
 
         <article class="mt-6 prose prose-sm max-w-none dark:prose-invert" v-html="post.html">
         </article>
