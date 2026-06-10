@@ -73,9 +73,13 @@ const commentDeleted = async (commentId)  => {
     if (! await confirmation('Are you sure you want to delete this comment?', 'Do you really want to perform this action? This process cannot be undone.')) {
         return;
     }
-    router.delete(destroy({comment: commentId, page: props.comments.meta.current_page}), {
+    router.delete(destroy({comment: commentId, page: props.data.length >1 ? props.comments.meta.current_page :Math.max(props.comments.meta.current_page - 1, 1) }), {
+         onSuccess: () => emit('commentDeleted', commentId),   
+        
+    }),
+    {
         preserveScroll: true,
-    });
+    };
 };
 
 </script>
