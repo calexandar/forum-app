@@ -149,7 +149,7 @@ import { Placeholder } from '@tiptap/extensions'
             <i class="ri-h-2"></i>
             </button>
         </li>
-        <li><button type="button" @click="() => editor.chain().focus().toggleHeading({ level: 4 }).run()" class="px-3 py-2 rouded-tl-md "
+        <li><button @click="() => editor.chain().focus().toggleHeading({ level: 4 }).run()" class="px-3 py-2 rouded-tl-md "
             :class="[
                editor.isActive('heading', { level: 4 }) ? 'bg-indigo-500 text-white': 'hover:bg-gray-200'
             ]"
