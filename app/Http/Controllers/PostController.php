@@ -56,8 +56,7 @@ class PostController extends Controller
         ]);
 
         $post = Post::create([
-            'title' => $data['title'],
-            'body' => $data['body'],
+             ...$data,
             'user_id' => $request->user()->id,
         ]);
 
