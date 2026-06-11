@@ -20,17 +20,19 @@ class LikeFactory extends Factory
     public function definition(): array
     {
         return [
-            'user_id' => User::factory(),
-            'likeable_type' => fn ($values) => $this->likeableType($values),
+            'user_id' => User::factory(),            
+            'likeable_type' => $this->likeableType(...),
             'likeable_id' => Post::factory(),
         ];
     }
 
-    public function likeableType(array $values)
+    protected function likeableType(array $values)
     {
         $type = $values['likeable_id'];
-        $modelName = $this->modelName();
+        $modelName = $type instanceof Factory
+            ? $type->modelName()
+            : $type::class;
 
-         return  (new $modelName)->getMorphClass();
+        return (new $modelName)->getMorphClass();
     }
 }
