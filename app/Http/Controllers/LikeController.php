@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Like;
 use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Redirect;
 
 class LikeController extends Controller
@@ -32,11 +33,13 @@ class LikeController extends Controller
     {
         $likeable = Relation::getMorphedModel($type)::findOrFail($id);
 
+        Gate::authorize('create', [Like::class, $likeable]);
+
         $likeable->likes()->create([
             'user_id' => $request->user()->id,
         ]);
         $likeable->increment('likes_count');
-        
+
         return back();
     }
 
