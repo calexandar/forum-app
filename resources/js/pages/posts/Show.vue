@@ -96,6 +96,10 @@ const commentDeleted = async (commentId)  => {
 
         <span class="text-sm text-gray-500 mb-6 block">Published {{ formattedDate }} by {{ post.user.name }}</span>
 
+        <div class="mt-4">
+            <span class="text-pink-500 font-bold">{{ post.likes_count }} likes</span>
+        </div>
+
         <article class="mt-6 prose prose-sm max-w-none dark:prose-invert" v-html="post.html">
         </article>
 
@@ -112,7 +116,7 @@ const commentDeleted = async (commentId)  => {
             <ul class="divide-y mt-4 flex-1">
                 <li v-for="comment in comments.data" :key="comment.id" class="px-2 py-4 flex-1">
                     <div class="mb-2 prose prose-sm dark:prose-invert" v-html="comment.html"></div>
-                    <p class="text-sm text-gray-600 ">{{  comment.user.name }}  commented {{ relativeDate(comment.created_at) }} ago</p>
+                    <p class="text-sm text-gray-600 ">{{  comment.user.name }}  commented {{ relativeDate(comment.created_at) }} ago | <span class="text-pink-500">{{ comment.likes_count }} likes</span></p>
                     <div  class="mt-2 flex space-x-4 justify-end"> 
                         <form v-if="comment.can?.update" @submit.prevent="commentEdit(comment.id)" class="inline">
                             <button type="submit" class="text-sm text-indigo-600 hover:font-extrabold hover:underline mr-2">Edit</button>
