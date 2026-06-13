@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Like;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
@@ -31,7 +32,13 @@ class LikeController extends Controller
      */
     public function store(Request $request, string $type, int $id)
     {
-        $likeable = Relation::getMorphedModel($type)::findOrFail($id);
+        $modelName = Relation::getMorphedModel($type);
+
+        if ($modelName === null) {
+            throw new ModelNotFoundException();
+        }
+
+        $likeable = $modelName::findOrFail($id);
 
         Gate::authorize('create', [Like::class, $likeable]);
 

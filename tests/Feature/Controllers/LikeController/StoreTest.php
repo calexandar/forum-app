@@ -10,7 +10,7 @@ use function Pest\Laravel\actingAs;
 use function Pest\Laravel\post;
 
 it('requires authentication', function () {
-    post(route('likes.store'))
+    post(route('likes.store',['post', 1]))
         ->assertRedirect(route('login'));
 });
 
@@ -47,4 +47,26 @@ it('prevents liking the same likeable twice', function () {
             $likeable->id
         ]))
         ->assertForbidden();
-});        
+});
+
+it('only allows liking supporting models', function () {
+    $user = User::factory()->create();
+
+    $this->actingAs($user)
+        ->post(route('likes.store', [
+            $user->getMorphClass(),
+            $user->id
+        ]))
+        ->assertForbidden();
+});  
+
+
+it('throws 404 if the type is not supported', function () {
+    $this->actingAs(User::factory()->create())
+        ->post(route('likes.store', [
+            'foo',
+            1,
+        ]))
+        ->assertNotFound();
+});
+

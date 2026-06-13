@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use App\Models\Comment;
 use App\Models\Post;
+use App\Models\User;
 use App\Policies\CommentPolicy;
 use Carbon\CarbonImmutable;
 use Illuminate\Database\Eloquent\Model;
@@ -38,8 +39,8 @@ class AppServiceProvider extends ServiceProvider
         Model::unguard();
         Relation::enforceMorphMap([
             'post' => Post::class,
-            'comment' => Comment::class
-            
+            'comment' => Comment::class,
+            'user' => User::class,
         ]);
     }
 

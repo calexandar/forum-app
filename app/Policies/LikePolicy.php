@@ -2,7 +2,9 @@
 
 namespace App\Policies;
 
+use App\Models\Comment;
 use App\Models\Like;
+use App\Models\Post;
 use App\Models\User;
 use Illuminate\Auth\Access\Response;
 use Illuminate\Database\Eloquent\Model;
@@ -30,6 +32,10 @@ class LikePolicy
      */
     public function create(User $user, Model $likable): bool
     {
+        if (! in_array($likable::class, [Post::class, Comment::class])) {
+            return false;
+        }
+
         return $likable->likes()->whereBelongsTo($user)->doesntExist();
     }
 
