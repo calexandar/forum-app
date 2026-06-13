@@ -12,22 +12,6 @@ use Illuminate\Database\Eloquent\Model;
 class LikePolicy
 {
     /**
-     * Determine whether the user can view any models.
-     */
-    public function viewAny(User $user): bool
-    {
-        return false;
-    }
-
-    /**
-     * Determine whether the user can view the model.
-     */
-    public function view(User $user, Like $like): bool
-    {
-        return false;
-    }
-
-    /**
      * Determine whether the user can create models.
      */
     public function create(User $user, Model $likable): bool
@@ -39,35 +23,17 @@ class LikePolicy
         return $likable->likes()->whereBelongsTo($user)->doesntExist();
     }
 
-    /**
-     * Determine whether the user can update the model.
-     */
-    public function update(User $user, Like $like): bool
-    {
-        return false;
-    }
 
     /**
      * Determine whether the user can delete the model.
      */
-    public function delete(User $user, Like $like): bool
+    public function delete(User $user, Model $likable): bool
     {
-        return false;
+        if (! in_array($likable::class, [Post::class, Comment::class])) {
+            return false;
+        }
+
+        return $likable->likes()->whereBelongsTo($user)->exists();
     }
 
-    /**
-     * Determine whether the user can restore the model.
-     */
-    public function restore(User $user, Like $like): bool
-    {
-        return false;
-    }
-
-    /**
-     * Determine whether the user can permanently delete the model.
-     */
-    public function forceDelete(User $user, Like $like): bool
-    {
-        return false;
-    }
 }
