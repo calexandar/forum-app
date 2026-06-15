@@ -1,7 +1,7 @@
 <script setup>
 import Pagination from '@/components/ui/pagination/Pagination.vue';
 import { index, show} from '@/actions/App/Http/Controllers/PostController';
-import { Link } from '@inertiajs/vue3';
+import { Link, useForm } from '@inertiajs/vue3';
 import { relativeDate } from '@/utilities/date';
 
  const props = defineProps({
@@ -16,6 +16,17 @@ import { relativeDate } from '@/utilities/date';
 const formattedDate = (post) => {
         return relativeDate(post.created_at);
 }; 
+
+const searchForm = useForm({
+        query: '',
+});
+
+const search = () => {
+        searchForm.get(index({ query: searchForm.query }), {
+                preserveState: true,
+                replace: true,
+        });
+}
 </script>
 
 <template>
@@ -40,6 +51,16 @@ const formattedDate = (post) => {
                                         </Link>
                                 </li>
                         </menu>
+
+                        <form @submit.prevent="search" class="mt-4" >
+                                <div>
+                                        <label for="query" class="block text-sm font-medium text-gray-700">Search</label>
+                                        <div class="flex space-x-2">
+                                                <input v-model="searchForm.query" type="text" id="query"  class="mt-1 block w-full border rounded p-2" placeholder="Enter post title..." />
+                                                <button type="submit" class="px-4 py-2 bg-indigo-500 text-white rounded">Search</button>
+                                        </div>
+                                </div>
+                        </form>
                 </div>
                 <ul class="divide-y">
                         <li v-for="post in posts.data" :key="post.id" class="px-2 py-4">

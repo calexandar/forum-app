@@ -5,6 +5,8 @@ use App\Http\Resources\PostResource;
 use App\Models\Post;
 use App\Models\Comment;
 
+use function Pest\Laravel\get;
+
 it('can show a post', function () {
     $post = Post::factory()->create();
 
@@ -24,17 +26,16 @@ it('passes the correct data to the view', function () {
 });
 
 it('passes comments to the view', function () {
-
     $post = Post::factory()->create();
-
     $comments = Comment::factory(2)->for($post)->create();
 
     $comments->load('user');
 
+    $expectedResource = CommentResource::collection($comments->reverse());
+    $expectedResource->collection->transform(fn (CommentResource $resource) => $resource->withLikePermission());
 
-    $response = $this->get($post->showRoute());
-
-    $response->assertHasPaginatedResource('comments', CommentResource::collection($comments->reverse()));
+    get($post->showRoute())
+        ->assertHasPaginatedResource('comments', $expectedResource);
 });
 
 it('redirects to the correct URL if the slug is missing', function (string $slug) {

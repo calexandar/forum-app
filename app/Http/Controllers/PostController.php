@@ -18,10 +18,12 @@ class PostController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index(Topic $topic)
+    public function index(Request $request, Topic $topic)
     {
         $posts = Post::with(['user', 'topic'])
             ->when($topic->exists, fn (Builder $query) => $query->whereBelongsTo($topic))
+            ->when($request->query('query'), 
+                fn (Builder $query) => $query->whereAny(['title', 'body'], 'like', '%' . $request->query('query') . '%'))
             ->latest()
             ->paginate();
 
