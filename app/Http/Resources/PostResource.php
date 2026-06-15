@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources;
 
+use App\Models\Like;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Number;
@@ -28,6 +29,9 @@ class PostResource extends JsonResource
             'routes' => [
                 'show' => $this->showRoute(),
             ],
+            'can' => [
+                'like' => $request->user()?->can('create', [Like::class, $this->resource]),
+            ]
         ];
     }
 }

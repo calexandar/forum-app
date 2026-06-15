@@ -1,14 +1,17 @@
 <script setup>
 import { relativeDate } from '@/utilities/date';
 import Pagination from '@/components/ui/pagination/Pagination.vue';
-import { useForm, router, usePage, Head } from '@inertiajs/vue3';
+import { useForm, router, usePage, Head, Link } from '@inertiajs/vue3';
 import Label from '@/components/ui/label/Label.vue';
 import { store, update, destroy} from '@/actions/App/Http/Controllers/CommentController';
+import { store as likeStore } from '@/actions/App/Http/Controllers/LikeController'; // Import the likeStore function from the LikeController';
+import { destroy as likeDestroy } from '@/actions/App/Http/Controllers/LikeController'; // Import the likeStore function from the LikeController';
 import { computed, defineEmits, ref } from 'vue';
 import ConfirmationModalWrapper from '@/components/ui/modal/ConfirmationModalWrapper.vue';
 import { useConfirm } from '@/composables/useConfirm.ts';
 import MarkdownEditor from '@/components/MarkdownEditor.vue';
-import {show} from '@/routes/posts';
+import { HandThumbUpIcon, HandThumbDownIcon } from '@heroicons/vue/20/solid';
+import { Hand } from 'lucide-vue-next';
 
 
 
@@ -98,6 +101,16 @@ const commentDeleted = async (commentId)  => {
 
         <div class="mt-4">
             <span class="text-pink-500 font-bold">{{ post.likes_count }} likes</span>
+                <div class="text-white">
+                    <Link v-if="post.can.like" :href="likeStore({type: 'post', id: props.post.id})" method="post" class="inline-block bg-indigo-600 hover:bg-pink-500 transition-colors text-white py-1.5 px-3 rounded-full">
+                        <HandThumbUpIcon class="size-4 inline-block mr-1"/>
+                        Like Post
+                    </Link>
+                    <Link v-else :href="likeDestroy({type: 'post', id: props.post.id})" method="delete" class="inline-block bg-indigo-600 hover:bg-pink-500 transition-colors text-white py-1.5 px-3 rounded-full">
+                        <HandThumbDownIcon class="size-4 inline-block mr-1"/>
+                        Unlike Post
+                    </Link>
+                </div>
         </div>
 
         <article class="mt-6 prose prose-sm max-w-none dark:prose-invert" v-html="post.html">
