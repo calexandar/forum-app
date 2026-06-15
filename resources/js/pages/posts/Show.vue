@@ -101,12 +101,12 @@ const commentDeleted = async (commentId)  => {
 
         <div class="mt-4">
             <span class="text-pink-500 font-bold">{{ post.likes_count }} likes</span>
-                <div class="text-white">
-                    <Link v-if="post.can.like" :href="likeStore({type: 'post', id: props.post.id})" method="post" class="inline-block bg-indigo-600 hover:bg-pink-500 transition-colors text-white py-1.5 px-3 rounded-full">
+                <div class="text-white mt-2">
+                    <Link v-if="post.can.like" :href="likeStore({type: 'post', id: post.id})" method="post" class="inline-block bg-indigo-600 hover:bg-pink-500 transition-colors text-white py-1.5 px-3 rounded-full">
                         <HandThumbUpIcon class="size-4 inline-block mr-1"/>
                         Like Post
                     </Link>
-                    <Link v-else :href="likeDestroy({type: 'post', id: props.post.id})" method="delete" class="inline-block bg-indigo-600 hover:bg-pink-500 transition-colors text-white py-1.5 px-3 rounded-full">
+                    <Link v-else :href="likeDestroy({type: 'post', id: post.id})" method="delete" class="inline-block bg-indigo-600 hover:bg-pink-500 transition-colors text-white py-1.5 px-3 rounded-full">
                         <HandThumbDownIcon class="size-4 inline-block mr-1"/>
                         Unlike Post
                     </Link>
@@ -131,6 +131,16 @@ const commentDeleted = async (commentId)  => {
                     <div class="mb-2 prose prose-sm dark:prose-invert" v-html="comment.html"></div>
                     <p class="text-sm text-gray-600 ">{{  comment.user.name }}  commented {{ relativeDate(comment.created_at) }} ago | <span class="text-pink-500">{{ comment.likes_count }} likes</span></p>
                     <div  class="mt-2 flex space-x-4 justify-end"> 
+                        <div class="text-white">
+                            <Link v-if="comment.can.like" preserve-scroll :href="likeStore({type: 'comment', id: comment.id})" method="post" class="inline-block  hover:text-pink-500 transition-colors text-gray-700">
+                                <HandThumbUpIcon class="size-4 inline-block mr-1"/>
+                                <span class="sr-only">Like Comment</span>
+                            </Link>
+                            <Link v-else preserve-scroll :href="likeDestroy({type: 'comment', id: comment.id})" method="delete" class="inline-block  hover:text-pink-500 transition-colors text-gray-700">
+                                <HandThumbDownIcon class="size-4 inline-block mr-1"/>
+                                <span class="sr-only">Unlike Comment</span>
+                            </Link>
+                        </div>
                         <form v-if="comment.can?.update" @submit.prevent="commentEdit(comment.id)" class="inline">
                             <button type="submit" class="text-sm text-indigo-600 hover:font-extrabold hover:underline mr-2">Edit</button>
                         </form>
